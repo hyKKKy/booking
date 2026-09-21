@@ -11,5 +11,6 @@
         public Hotel Hotel { get; set; } = null!;
         public ICollection<Room> Rooms { get; set; } = new List<Room>();
         public ICollection<PriceOverride> PriceOverrides { get; set; } = new List<PriceOverride>();
+        public ICollection<Booking> Bookings { get; set; } = new List<Booking>();
     }
 }
