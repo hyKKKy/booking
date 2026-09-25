@@ -1,9 +1,11 @@
-﻿using booking.Services;
-using Microsoft.AspNetCore.Mvc;
-using booking.Data;
+﻿using booking.Data;
 using booking.DTOs;
 using booking.Entities;
+using booking.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace booking.Controllers
 {
@@ -64,6 +66,29 @@ namespace booking.Controllers
                 return Unauthorized("Invalid email or password.");
 
             }
+        }
+
+        [Authorize]
+        [HttpGet("me")]
+        public async Task<IActionResult> Me()
+        {
+            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+                return Unauthorized();
+            }
+
+            if (!Guid.TryParse(userIdClaim.Value, out var userId))
+            {
+                return Unauthorized();
+            }
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new { user.Id, user.Name, user.Email });
         }
     }
 }
