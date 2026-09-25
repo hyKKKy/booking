@@ -1,14 +1,1 @@
-﻿@booking_HostAddress = https://localhost:7185
-
-### Логин — получить токен
-POST {{booking_HostAddress}}/api/auth/login
-Content-Type: application/json
-
-{
-  "email": "xui@gmail.com",
-  "password": "we34rt66F"
-}
-
-### Проверка защищённого эндпоинта — вставь токен из ответа выше
-GET {{booking_HostAddress}}/api/auth/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjZhZDZhNzNlLWQ3MTctNGM0Yy1iMjVmLTA4ZGYxYjMyNzg5MCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6Inh1aUBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJSZWd1bGFyVXNlciIsImV4cCI6MTc5MDM2NDM4NywiaXNzIjoiYm9va2luZy1hcGkiLCJhdWQiOiJib29raW5nLWFwaSJ9.-nIahpEyTCO6zG1tysubMG6hlPsGfVmbuqPLso1ZBRU
+﻿
