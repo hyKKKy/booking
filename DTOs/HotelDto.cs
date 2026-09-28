@@ -1,4 +1,4 @@
-﻿namespace booking.Controllers
+﻿namespace booking.DTOs
 {
     public class HotelDto
     {
