@@ -63,12 +63,12 @@ namespace booking.Controllers
                 return NotFound($"Hotel with ID {dto.HotelId} not found.");
             }
 
-            //bool isDuplicateName = await _context.RoomTypes
-            //    .AnyAsync(rt => rt.HotelId == dto.HotelId && rt.Name == dto.Name);
-            //if (isDuplicateName)
-            //{
-            //    return Conflict($"A room type with the name '{dto.Name}' already exists for this hotel.");
-            //}
+            bool isDuplicateName = await _context.RoomTypes
+                .AnyAsync(rt => rt.HotelId == dto.HotelId && rt.Name == dto.Name);
+            if (isDuplicateName)
+            {
+                return Conflict($"A room type with the name '{dto.Name}' already exists for this hotel.");
+            }
             RoomType roomType = new RoomType
             {
                 Name = dto.Name,
