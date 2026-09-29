@@ -41,7 +41,7 @@ namespace booking.Controllers
             bool roomExists = await _context.Rooms.AnyAsync(r => r.Number == dto.Number && r.RoomType.HotelId == roomType.HotelId);
             if (roomExists)
             {
-                return Conflict($"Room with number {dto.Number} already exists.");
+                return Conflict($"A room with the number '{dto.Number}' already exists in this hotel.");
             }
 
             Room room = new Room

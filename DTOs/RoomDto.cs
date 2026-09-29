@@ -1,6 +1,4 @@
-﻿using booking.Entities;
-
-namespace booking.DTOs
+﻿namespace booking.DTOs
 {
     public class RoomDto
     {
