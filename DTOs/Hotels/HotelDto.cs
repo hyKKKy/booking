@@ -1,4 +1,4 @@
-﻿namespace booking.DTOs
+﻿namespace booking.DTOs.Hotels
 {
     public class HotelDto
     {

@@ -1,10 +1,10 @@
 ﻿using booking.Data;
 using Microsoft.AspNetCore.Mvc;
-using booking.DTOs;
 using booking.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
+using booking.DTOs.RoomTypes;
 
 namespace booking.Controllers
 {

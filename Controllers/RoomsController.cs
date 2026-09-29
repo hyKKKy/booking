@@ -1,9 +1,9 @@
 ﻿using booking.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using booking.DTOs;
 using booking.Entities;
 using Microsoft.EntityFrameworkCore;
+using booking.DTOs.Rooms;
 
 namespace booking.Controllers
 {

@@ -1,4 +1,4 @@
-﻿namespace booking.DTOs
+﻿namespace booking.DTOs.RoomTypes
 {
     public class RoomTypeDto
     {

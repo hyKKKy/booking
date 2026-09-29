@@ -1,5 +1,5 @@
 ﻿using booking.Data;
-using booking.DTOs;
+using booking.DTOs.Auth;
 using booking.Entities;
 using booking.Services;
 using Microsoft.AspNetCore.Authorization;
