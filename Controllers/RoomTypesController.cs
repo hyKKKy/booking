@@ -4,6 +4,7 @@ using booking.DTOs;
 using booking.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 
 namespace booking.Controllers
 {
@@ -11,8 +12,12 @@ namespace booking.Controllers
     [Route("api/[controller]")]
     public class RoomTypesController : ControllerBase
     {
-        private readonly AppDbContext _context;
 
+        private const int SqlUniqueIndexViolation = 2601;
+        private const int SqlUniqueConstraintViolation = 2627;
+
+        private readonly AppDbContext _context;
+        
         public RoomTypesController(AppDbContext context)
         {
             _context = context;
@@ -29,6 +34,11 @@ namespace booking.Controllers
                 Description = roomType.Description,
                 HotelId = roomType.HotelId
             };
+        }
+
+        private static bool IsUniqueViolation(DbUpdateException ex)
+        {
+            return ex.InnerException is SqlException sql && (sql.Number == SqlUniqueIndexViolation || sql.Number == SqlUniqueConstraintViolation);
         }
 
         [HttpGet("{id:guid}")]
@@ -53,12 +63,12 @@ namespace booking.Controllers
                 return NotFound($"Hotel with ID {dto.HotelId} not found.");
             }
 
-            bool isDuplicateName = await _context.RoomTypes
-                .AnyAsync(rt => rt.HotelId == dto.HotelId && rt.Name == dto.Name);
-            if (isDuplicateName)
-            {
-                return Conflict($"A room type with the name '{dto.Name}' already exists for this hotel.");
-            }
+            //bool isDuplicateName = await _context.RoomTypes
+            //    .AnyAsync(rt => rt.HotelId == dto.HotelId && rt.Name == dto.Name);
+            //if (isDuplicateName)
+            //{
+            //    return Conflict($"A room type with the name '{dto.Name}' already exists for this hotel.");
+            //}
             RoomType roomType = new RoomType
             {
                 Name = dto.Name,
@@ -68,7 +78,15 @@ namespace booking.Controllers
                 HotelId = dto.HotelId
             };
             _context.RoomTypes.Add(roomType);
-            await _context.SaveChangesAsync();
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex) when (IsUniqueViolation(ex))
+            {
+                return Conflict($"A room type with the name '{dto.Name}' already exists for this hotel.");
+            }
             var roomTypeDto = ToDto(roomType);
             return CreatedAtAction(nameof(GetRoomType), new { id = roomType.Id }, roomTypeDto);
         }
@@ -92,7 +110,15 @@ namespace booking.Controllers
             roomType.Capacity = dto.Capacity;
             roomType.BasePrice = dto.BasePrice;
             roomType.Description = dto.Description;
-            await _context.SaveChangesAsync();
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex) when (IsUniqueViolation(ex))
+            {
+                return Conflict($"A room type with the name '{dto.Name}' already exists for this hotel.");
+            }
             return NoContent();
         }
     }

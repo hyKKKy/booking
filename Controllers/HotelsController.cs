@@ -47,7 +47,6 @@ namespace booking.Controllers
 
             var hotelDto = ToDto(hotel);
 
-            
             return CreatedAtAction(nameof(GetHotel), new { id = hotel.Id }, hotelDto);
         }
 
@@ -73,7 +72,7 @@ namespace booking.Controllers
 
         [HttpPut("{id:guid}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateHotel(Guid id, CreateHotelDto dto)
+        public async Task<IActionResult> UpdateHotel(Guid id, UpdateHotelDto dto)
         {
             var hotel = await _context.Hotels.FindAsync(id);
             if (hotel == null)
