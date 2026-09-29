@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using booking.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,9 +35,11 @@ builder.Services.AddOpenApi(options =>
     options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
 });
 
-builder.Services.AddControllers();
 
-builder.Services.AddOpenApi();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new TrimmingStringConverter());
+});
 
 var app = builder.Build();
 
