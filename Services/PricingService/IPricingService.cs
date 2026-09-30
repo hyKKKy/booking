@@ -1,6 +1,6 @@
 ﻿using booking.Common;
 
-namespace booking.Services
+namespace booking.Services.PricingService.PricingService
 {
     public interface IPricingService
     {

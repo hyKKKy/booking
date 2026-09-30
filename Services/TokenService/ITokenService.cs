@@ -1,6 +1,6 @@
 ﻿using booking.Entities;
 
-namespace booking.Services
+namespace booking.Services.TokenService.TokenService
 {
     public interface ITokenService
     {

@@ -3,7 +3,7 @@ using booking.Data;
 using booking.Entities.Enums;
 using Microsoft.EntityFrameworkCore;
 
-namespace booking.Services
+namespace booking.Services.AvailabilityService
 {
     public class AvailabilityService : IAvailabilityService
     {

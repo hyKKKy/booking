@@ -1,7 +1,7 @@
 ﻿using booking.Data;
 using booking.DTOs.Auth;
 using booking.Entities;
-using booking.Services;
+using booking.Services.PasswordService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

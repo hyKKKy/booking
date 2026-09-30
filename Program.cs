@@ -1,10 +1,13 @@
 ﻿using booking.Data;
-using booking.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using booking.Infrastructure;
+using booking.Services.PasswordService;
+using booking.Services.TokenService;
+using booking.Services.PricingService;
+using booking.Services.AvailabilityService;
 
 var builder = WebApplication.CreateBuilder(args);
 
