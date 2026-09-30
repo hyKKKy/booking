@@ -1,6 +1,6 @@
 ﻿using booking.Common;
 
-namespace booking.Services.AvailabilityService
+namespace booking.Services.Availability
 {
     public interface IAvailabilityService
     {

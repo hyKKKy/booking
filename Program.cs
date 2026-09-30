@@ -4,10 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using booking.Infrastructure;
-using booking.Services.PasswordService;
-using booking.Services.TokenService;
-using booking.Services.PricingService;
-using booking.Services.AvailabilityService;
+using booking.Services.Auth;
+using booking.Services.Availability;
+using booking.Services.Pricing;
 
 var builder = WebApplication.CreateBuilder(args);
 

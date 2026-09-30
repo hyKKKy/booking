@@ -2,7 +2,7 @@
 using booking.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace booking.Services.PricingService
+namespace booking.Services.Pricing
 {
     public class PricingService : IPricingService
     {

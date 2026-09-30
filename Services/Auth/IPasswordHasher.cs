@@ -1,4 +1,4 @@
-﻿namespace booking.Services.PasswordService
+﻿namespace booking.Services.Auth
 {
     public interface IPasswordHasher
     {

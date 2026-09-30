@@ -3,7 +3,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 
-namespace booking.Services.TokenService
+namespace booking.Services.Auth
 {
     public class TokenService : ITokenService
     {
