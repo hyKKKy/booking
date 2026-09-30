@@ -38,7 +38,8 @@ namespace booking.Controllers
                 return NotFound($"RoomType with ID {dto.RoomTypeId} not found.");
             }
 
-            bool roomExists = await _context.Rooms.AnyAsync(r => r.Number == dto.Number && r.RoomType.HotelId == roomType.HotelId);
+            bool roomExists = await _context.Rooms
+                .AnyAsync(r => r.Number == dto.Number && r.RoomType.HotelId == roomType.HotelId);
             if (roomExists)
             {
                 return Conflict($"A room with the number '{dto.Number}' already exists in this hotel.");
@@ -53,51 +54,6 @@ namespace booking.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetRoom), new { id = room.Id }, ToDto(room));
-        }
-
-        [HttpGet("{id:guid}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> GetRoom(Guid id)
-        {
-            var room = await _context.Rooms.FindAsync(id);
-            if (room == null)
-            {
-                return NotFound();
-            }
-            return Ok(ToDto(room));
-        }
-
-        [HttpPut("{id:guid}")]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> UpdateRoom(Guid id, UpdateRoomDto dto)
-        {
-            var room = await _context.Rooms
-                .Include(r => r.RoomType)
-                .FirstOrDefaultAsync(r => r.Id == id);
-            if (room == null)
-            {
-                return NotFound();
-            }
-            var roomType = await _context.RoomTypes.FindAsync(dto.RoomTypeId);
-            if (roomType == null)
-            {
-                return NotFound($"RoomType with ID {dto.RoomTypeId} not found.");
-            }
-
-            if (roomType.HotelId != room.RoomType.HotelId)
-            {
-                return BadRequest("Room type belongs to a different hotel.");
-            }
-            bool roomExists = await _context.Rooms.AnyAsync(r => r.Id != id && r.Number == dto.Number && r.RoomType.HotelId == roomType.HotelId);
-            if (roomExists)
-            {
-                return Conflict($"A room with the number '{dto.Number}' already exists in this hotel.");
-            }
-            // TODO: before changing RoomTypeId, check bookings via booking service
-            room.Number = dto.Number;
-            room.RoomTypeId = dto.RoomTypeId;
-            await _context.SaveChangesAsync();
-            return NoContent();
         }
 
         [HttpGet]
@@ -128,5 +84,53 @@ namespace booking.Controllers
 
             return Ok(rooms);
         }
+
+        [HttpGet("{id:guid}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetRoom(Guid id)
+        {
+            var room = await _context.Rooms.FindAsync(id);
+            if (room == null)
+            {
+                return NotFound();
+            }
+            return Ok(ToDto(room));
+        }
+
+        [HttpPut("{id:guid}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateRoom(Guid id, UpdateRoomDto dto)
+        {
+            var room = await _context.Rooms
+                .Include(r => r.RoomType)
+                .FirstOrDefaultAsync(r => r.Id == id);
+            if (room == null)
+            {
+                return NotFound();
+            }
+
+            var roomType = await _context.RoomTypes.FindAsync(dto.RoomTypeId);
+            if (roomType == null)
+            {
+                return NotFound($"RoomType with ID {dto.RoomTypeId} not found.");
+            }
+
+            if (roomType.HotelId != room.RoomType.HotelId)
+            {
+                return BadRequest("Room type belongs to a different hotel.");
+            }
+
+            bool roomExists = await _context.Rooms.AnyAsync(r => r.Id != id && r.Number == dto.Number && r.RoomType.HotelId == roomType.HotelId);
+            if (roomExists)
+            {
+                return Conflict($"A room with the number '{dto.Number}' already exists in this hotel.");
+            }
+            // TODO: before changing RoomTypeId, check bookings via booking service
+            room.Number = dto.Number;
+            room.RoomTypeId = dto.RoomTypeId;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+       
     }
 }
