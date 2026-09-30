@@ -32,6 +32,9 @@ namespace booking.Data
             modelBuilder.Entity<RoomType>()
                 .Property(rt => rt.BasePrice)
                 .HasPrecision(18, 2);
+            modelBuilder.Entity<RoomType>()
+                .Property(rt => rt.RowVersion)
+                .IsRowVersion();
             modelBuilder.Entity<Booking>()
                 .Property(b => b.RowVersion)
                 .IsRowVersion();
