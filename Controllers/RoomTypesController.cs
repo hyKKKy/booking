@@ -41,6 +41,33 @@ namespace booking.Controllers
             return ex.InnerException is SqlException sql && (sql.Number == SqlUniqueIndexViolation || sql.Number == SqlUniqueConstraintViolation);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetRoomTypes([FromQuery] Guid? hotelId)
+        {
+            IQueryable<RoomType> query = _context.RoomTypes;
+
+            if (hotelId.HasValue)
+            {
+                query = query.Where(rt => rt.HotelId == hotelId.Value);
+            }
+
+            var roomTypes = await query
+                .OrderBy(rt => rt.Name)
+                .Select(rt => new RoomTypeDto
+                {
+                    Id = rt.Id,
+                    Name = rt.Name,
+                    Capacity = rt.Capacity,
+                    BasePrice = rt.BasePrice,
+                    Description = rt.Description,
+                    HotelId = rt.HotelId
+                })
+                .ToListAsync();
+
+            return Ok(roomTypes);
+        }
+
+
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetRoomType(Guid id)
         {
